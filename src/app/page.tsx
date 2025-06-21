@@ -1,103 +1,118 @@
-import Image from "next/image";
+import { Metadata } from "next";
+import Hero from "@/components/Hero";
+import FeaturedProducts from "@/components/FeaturedProducts";
+import OurStory from "@/components/OurStory";
+import BlogPreview from "@/components/BlogPreview";
+import Reviews from "@/components/Reviews";
+import Faq from "@/components/about/Faq";
+import ContactSection from "@/components/ContactSection";
 
-export default function Home() {
+// --- ENHANCED SEO METADATA ---
+export const metadata: Metadata = {
+  title: "Eve's Bake n Sweet | Handcrafted Cakes, Cookies & Pastries",
+  description:
+    "Welcome to Eve's Bake n Sweet! Discover our delicious range of homemade cakes, cookies, and pastries, all baked with love in Lagos, Nigeria. Order online for a sweet treat.",
+  keywords: [
+    "bakery in Lagos",
+    "bakery in Kano",
+    "custom cakes",
+    "meat pie",
+    "cupcakes",
+    "chin chin",
+    "gourmet cookies",
+    "online bakery",
+    "Eve's Bake n Sweet",
+  ],
+  openGraph: {
+    title: "Eve's Bake n Sweet | Handcrafted Cakes, Cookies & Pastries",
+    description: "Delicious homemade baked goods, crafted with love.",
+    url: process.env.NEXT_PUBLIC_BASE_URL,
+    siteName: "Eve's Bake n Sweet",
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/images/og-home.jpg`, // TODO: Will create a beautiful OG image for the homepage
+        width: 1200,
+        height: 630,
+        alt: "A showcase of delicious baked goods from Eve's Bake n Sweet",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Eve's Bake n Sweet | Handcrafted Cakes, Cookies & Pastries",
+    description: "Delicious homemade baked goods, crafted with love.",
+    images: [`${process.env.NEXT_PUBLIC_BASE_URL}/images/og-home.jpg`],
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+};
+
+export default async function HomePage() {
+  // --- JSON-LD STRUCTURED DATA FOR ORGANIZATION & WEBSITE ---
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "Bakery",
+    name: "Eve's Bake n Sweet",
+    url: process.env.NEXT_PUBLIC_BASE_URL,
+    logo: `${process.env.NEXT_PUBLIC_BASE_URL}/logo.png`,
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+234-801-234-5678",
+      contactType: "Customer Service",
+    },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "123 Sweet Street",
+      addressLocality: "Ikeja",
+      addressRegion: "Lagos",
+      postalCode: "100242",
+      addressCountry: "NG",
+    },
+    sameAs: [
+      // TODO: Add links to social media profiles
+      "https://www.facebook.com/evesbakesweet",
+      "https://www.instagram.com/evesbakesweet",
+      "https://www.twitter.com/evesbakesweet",
+    ],
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    url: process.env.NEXT_PUBLIC_BASE_URL,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${process.env.NEXT_PUBLIC_BASE_URL}/search?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <div>
+        <Hero />
+        <div className="container mx-auto px-4 py-24">
+          <FeaturedProducts />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <OurStory />
+        <BlogPreview />
+        <Reviews />
+        <Faq />
+        <ContactSection />
+      </div>
+    </>
   );
 }
