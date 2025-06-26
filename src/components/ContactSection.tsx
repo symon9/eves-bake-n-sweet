@@ -94,8 +94,8 @@ const ContactSection = () => {
               Get in Touch
             </h2>
             <p className="mt-4 text-lg text-gray-600">
-              We'd love to hear from you! Whether it's a question about an
-              order, a special request, or just to say hello, here's how you can
+              We&apos;d love to hear from you! Whether it&apos;s a question about an
+              order, a special request, or just to say hello, here&apos;s how you can
               reach us.
             </p>
             <div className="mt-12 space-y-8">

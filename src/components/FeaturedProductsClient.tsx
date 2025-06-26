@@ -64,8 +64,8 @@ const FeaturedProductsClient = ({ products }: { products: IProduct[] }) => {
 
       <div className="products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {products.map((product) => (
-          <div key={product._id} className="product-card-container text-left">
-            <ProductCard product={product} />
+          <div key={String(product._id)} className="product-card-container text-left">
+            <ProductCard product={{ ...product, _id: String(product._id) }} />
           </div>
         ))}
       </div>

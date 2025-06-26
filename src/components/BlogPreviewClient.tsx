@@ -71,7 +71,7 @@ const BlogPreviewClient = ({ posts }: { posts: IBlog[] }) => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map((post) => (
-            <div key={post._id} className="blog-card">
+            <div key={String(post._id)} className="blog-card">
               <Link href={`/blog/${post.slug}`}>
                 <div className="group block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden h-full">
                   <div className="relative aspect-video">

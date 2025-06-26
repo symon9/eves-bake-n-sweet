@@ -31,7 +31,7 @@ const BlogForm = ({
 
   const editor = useEditor({
     extensions: [StarterKit],
-    content: "",
+    content: content,
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML());
     },
@@ -49,16 +49,27 @@ const BlogForm = ({
       setExcerpt(initialData.excerpt || "");
       setFeaturedMediaUrl(initialData.featuredMediaUrl || "");
       setMediaType(initialData.mediaType || "image");
+      
+      
+      // 1. Directly set the React state for content.
+      setContent(initialData.content || "");
 
-      if (
-        editor &&
-        initialData.content &&
-        editor.getHTML() !== initialData.content
-      ) {
-        editor.commands.setContent(initialData.content);
+      // 2. Also ensure the editor instance is updated if it exists.
+      // This covers the edge case where the editor is ready before the data arrives.
+      if (editor && editor.getHTML() !== initialData.content) {
+        editor.commands.setContent(initialData.content || "");
       }
     }
-  }, [initialData, editor]);
+  }, [initialData]);
+
+	
+    // This second useEffect syncs the editor if the `content` state is ever
+  // updated from outside the editor itself (like from initialData).
+  useEffect(() => {
+    if (editor && content && editor.getHTML() !== content) {
+        editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   const handleMediaUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -87,7 +98,7 @@ const BlogForm = ({
       } else {
         throw new Error("Upload failed");
       }
-    } catch (error) {
+    } catch {
       toast.error("Upload failed. Please try again.", { id: uploadToast });
     } finally {
       setIsUploading(false);

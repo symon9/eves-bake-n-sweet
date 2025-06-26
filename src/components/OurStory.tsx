@@ -53,10 +53,10 @@ const OurStory = () => {
               A Pinch of Passion in Every Bite
             </h2>
             <p className="text-gray-600 leading-relaxed">
-              Welcome to Eve's Bake n Sweet, where every creation is a piece of
+              Welcome to Eve&apos;s Bake n Sweet, where every creation is a piece of
               our heart. Founded from a lifelong love for baking, we believe in
               the magic of simple, high-quality ingredients. From our family to
-              yours, we're dedicated to baking delicious memories that last a
+              yours, we&apos;re dedicated to baking delicious memories that last a
               lifetime.
             </p>
           </div>

@@ -100,7 +100,7 @@ const AdminProductCard = ({
           <span>Edit</span>
         </button>
         <button
-          onClick={() => onDelete(product._id)}
+          onClick={() => onDelete(product._id as string)}
           disabled={isDeleting && deletingId === product._id}
           className="flex items-center justify-center gap-2 py-3 text-sm text-red-600 hover:bg-red-50 border-l transition-colors disabled:opacity-50"
         >

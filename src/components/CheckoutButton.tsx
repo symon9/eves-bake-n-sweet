@@ -30,7 +30,10 @@ const CheckoutButton = ({
   const initializePayment = usePaystackPayment(config);
 
   const handlePayment = () => {
-    initializePayment(onSuccess, onClose);
+    initializePayment({
+      onSuccess,
+      onClose,
+    });
   };
 
   return (

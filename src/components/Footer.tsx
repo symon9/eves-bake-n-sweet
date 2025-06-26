@@ -10,7 +10,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Column 1: Brand */}
           <div className="md:col-span-2">
-            <h3 className="text-2xl font-bold text-pink-600 mb-2">Eve's Bake n Sweet</h3>
+            <h3 className="text-2xl font-bold text-pink-600 mb-2">Eve&apos;s Bake n Sweet</h3>
             <p className="max-w-md">Crafting delicious memories, one baked good at a time. All our products are made with love, using the finest local ingredients.</p>
           </div>
           
@@ -36,7 +36,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-12 border-t border-pink-200 pt-6 text-center text-sm">
-          <p>© {new Date().getFullYear()} Eve's Bake n Sweet. All Rights Reserved.</p>
+          <p>© {new Date().getFullYear()} Eve&apos;s Bake n Sweet. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

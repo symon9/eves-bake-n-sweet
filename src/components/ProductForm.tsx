@@ -1,14 +1,22 @@
 "use client";
 
 import { useState, FormEvent, useEffect } from "react";
-import { IProduct } from "@/lib/models/Product";
+// import { IProduct } from "@/lib/models/Product";
 import { Loader2, UploadCloud, X } from "lucide-react";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
 
+interface ProductFormData {
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  imageUrls: string[];
+}
+
 interface ProductFormProps {
-  onSubmit: (productData: Omit<IProduct, "_id">) => Promise<void> | void;
-  initialData?: IProduct | null;
+  onSubmit: (productData: ProductFormData) => Promise<void> | void;
+  initialData?: ProductFormData | null;
   buttonText: string;
   isSubmitting: boolean;
 }

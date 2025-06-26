@@ -41,7 +41,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: SidebarProps) => {
       `}
     >
       <div className="h-16 flex items-center justify-center text-2xl font-bold border-b border-gray-700">
-        <Link href="/admin">Eve's Admin</Link>
+        <Link href="/admin">Eve&apos;s Admin</Link>
       </div>
       <nav className="flex-grow p-4">
         <ul>

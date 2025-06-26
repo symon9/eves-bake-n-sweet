@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const query: any = {};
+    const query: Record<string, unknown> = {};
     if (search) {
       // Search by customer name, email, or order ID (partial match, case-insensitive)
       query.$or = [
@@ -62,8 +62,9 @@ export async function POST(request: Request) {
     const body = await request.json();
     const order = await Order.create(body);
     return NextResponse.json({ success: true, data: order }, { status: 201 });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 400 });
   }
 }
 
@@ -105,7 +106,8 @@ export async function PUT(request: Request) {
     } else {
       return NextResponse.json({ success: false, message: 'Payment verification failed' }, { status: 400 });
     }
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }

@@ -56,7 +56,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     { scope: cardRef }
   );
 
-  const handleAddToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddToCart = () => {
     dispatch({
       type: "ADD_ITEM",
       payload: {

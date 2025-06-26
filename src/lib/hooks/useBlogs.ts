@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import {
   getBlogs,
   getBlogById,
@@ -6,6 +6,12 @@ import {
   updateBlogPost,
   deleteBlogPost,
 } from "@/lib/api/blogs";
+import { IBlog } from "../models/Blog";
+
+type UpdateBlogVariables = {
+  id: string;
+  postData: Partial<IBlog>; // It can be a partial update
+};
 
 export const blogKeys = {
   all: ["blogs"] as const,
@@ -27,8 +33,7 @@ export const useGetBlogs = ({
 }) => {
   return useQuery({
     queryKey: [blogKeys.lists(), { page, limit, search }],
-    queryFn: () => getBlogs({ page, limit, search }),
-    keepPreviousData: true,
+    queryFn: keepPreviousData(() => getBlogs({ page, limit, search })),
   });
 };
 
@@ -52,12 +57,16 @@ export const useCreateBlog = () => {
 
 export const useUpdateBlog = () => {
   const queryClient = useQueryClient();
-  return useMutation({
+
+  return useMutation<IBlog, Error, UpdateBlogVariables>({
     mutationFn: updateBlogPost,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: blogKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: blogKeys.detail(data._id) });
+      queryClient.invalidateQueries({ queryKey: blogKeys.detail(String(data._id)) });
     },
+    onError: (error) => {
+        console.error("Update failed:", error.message);
+    }
   });
 };
 

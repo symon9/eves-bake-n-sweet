@@ -106,7 +106,9 @@ export default async function BlogPage() {
         dateModified: post.updatedAt,
         author: {
           "@type": "Person",
-          name: post.author.name,
+          name: typeof post.author === "object" && "name" in post.author
+            ? (post.author as { name: string }).name
+            : "Eve's Bake n Sweet",
         },
         publisher: {
           "@type": "Organization",
@@ -137,7 +139,7 @@ export default async function BlogPage() {
         <div className="container mx-auto px-4 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map((post) => (
-              <BlogCard key={post._id} post={post} />
+              <BlogCard key={post._id as string} post={post} />
             ))}
           </div>
         </div>

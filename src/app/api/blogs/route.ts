@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
     const newPost = await Blog.create({
       ...body,
       slug,
-      author: session.user.id,
+      author: (session.user as { id: string }).id,
     });
     return NextResponse.json({ success: true, data: newPost }, { status: 201 });
   } catch (error: any) {

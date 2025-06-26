@@ -37,7 +37,7 @@ export default function NotFound() {
         </h2>
 
         <p className="main-text mt-4 text-gray-600">
-          The page you're looking for seems to have gone missing. Don't worry, we can get you back to the deliciousness.
+          The page you&apos;re looking for seems to have gone missing. Don&apos;t worry, we can get you back to the deliciousness.
         </p>
 
         <div className="mt-10">

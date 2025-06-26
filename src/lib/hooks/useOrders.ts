@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 
 import {
   getOrders,
@@ -16,8 +16,6 @@ export const orderKeys = {
   detail: (id: string) => [...orderKeys.details(), id] as const,
 };
 
-// --- CUSTOM HOOKS ---
-
 /**
  * Custom hook to fetch a paginated list of orders.
  */
@@ -32,8 +30,7 @@ export const useGetOrders = ({
 }) => {
   return useQuery({
     queryKey: orderKeys.list({ page, limit, search }),
-    queryFn: () => getOrders({ page, limit, search }),
-    keepPreviousData: true,
+    queryFn: keepPreviousData(() => getOrders({ page, limit, search })), // ✅ fixed
   });
 };
 

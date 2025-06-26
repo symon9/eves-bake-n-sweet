@@ -11,6 +11,11 @@ import { toast } from "react-hot-toast";
 import { useCart } from "@/context/CartContext";
 import { useModal } from "@/context/ModalProvider";
 
+interface PaystackReference {
+  reference: string;
+  [key: string]: unknown;
+}
+
 export default function CartPage() {
   const { state, dispatch } = useCart();
   const { items } = state;
@@ -35,7 +40,7 @@ export default function CartPage() {
     0
   );
 
-  const handlePaymentSuccess = async (reference: any) => {
+  const handlePaymentSuccess = async (reference: PaystackReference) => {
     toast.success("Payment Received! Finalizing your order...");
 
     const orderPayload = {
@@ -63,7 +68,7 @@ export default function CartPage() {
       if (!orderData.success) {
         throw new Error(orderData.error || "Failed to save order.");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("CRITICAL: Failed to save a paid order.", error);
       toast.error(
         `Order confirmation failed. Please contact support with reference ${reference.reference}`
@@ -146,7 +151,7 @@ export default function CartPage() {
           Your Cart is Empty
         </h1>
         <p className="text-gray-500 mb-8">
-          Looks like you haven't added any delicious treats yet.
+          Looks like you haven&apos;t added any delicious treats yet.
         </p>
         <Link
           href="/menu"

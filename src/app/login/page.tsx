@@ -6,10 +6,9 @@ import { useRouter } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Mail, KeyRound, Loader2 } from "lucide-react";
-import Link from "next/link";
+//import Link from "next/link";
 
 gsap.registerPlugin(useGSAP);
-/* TODO: add a background image */
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -55,7 +54,7 @@ export default function LoginPage() {
       } else if (result?.ok) {
         router.push("/admin");
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred.");
     } finally {
       setIsSubmitting(false);

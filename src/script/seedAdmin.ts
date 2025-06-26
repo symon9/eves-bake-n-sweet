@@ -1,6 +1,8 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-require("dotenv").config({ path: ".env.local" });
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
+
+dotenv.config({ path: ".env.local" });
 
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -56,4 +58,4 @@ async function seedAdmin() {
 
 seedAdmin();
 
-// node src/script/seedAdmin.js
+// npx tsx src/script/seedAdmin.ts

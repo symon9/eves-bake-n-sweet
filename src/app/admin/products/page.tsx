@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { PlusCircle, ShoppingBag, Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
@@ -12,7 +11,6 @@ import Pagination from "@/components/Pagination";
 import AdminProductCard from "@/components/admin/AdminProductCard";
 
 export default function AdminProductsPage() {
-  const router = useRouter();
   const { showModal } = useModal();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,9 +88,9 @@ export default function AdminProductsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product) => (
               <AdminProductCard
-                key={product._id}
+                key={product._id as string}
                 product={product}
-                onDelete={() => handleDelete(product._id, product.name)}
+                onDelete={() => handleDelete(product._id as string, product.name)}
                 isDeleting={isDeleting}
                 deletingId={deletingId}
               />
@@ -111,7 +109,7 @@ export default function AdminProductsPage() {
             Your Menu is Empty
           </h3>
           <p className="mt-2 text-sm text-gray-500">
-            Let's add your first delicious creation to the menu.
+            Let&apos;s add your first delicious creation to the menu.
           </p>
           <div className="mt-6">
             <Link

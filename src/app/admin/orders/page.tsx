@@ -127,7 +127,7 @@ export default function AdminOrdersPage() {
                   statusStyles[order.status] || statusStyles.pending;
                 return (
                   <tr
-                    key={order._id}
+                    key={order._id as string}
                     onClick={() => router.push(`/admin/orders/${order._id}`)}
                     className="hover:bg-gray-100 cursor-pointer"
                   >
@@ -188,7 +188,7 @@ export default function AdminOrdersPage() {
             const style = statusStyles[order.status] || statusStyles.pending;
             return (
               <div
-                key={order._id}
+                key={order._id as string}
                 onClick={() => router.push(`/admin/orders/${order._id}`)}
                 className="p-4 border-b border-gray-200 cursor-pointer hover:bg-gray-50"
               >

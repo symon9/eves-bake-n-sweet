@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import { CheckCircle, PartyPopper } from "lucide-react";
 import { useGSAP } from "@gsap/react";
@@ -60,7 +60,7 @@ export default function ThankYouPage() {
         </h1>
 
         <p className="text-reveal mt-4 text-base sm:text-lg text-gray-600">
-          Your order has been received and is now being processed. We're just as
+          Your order has been received and is now being processed. We&apos;re just as
           excited as you are to get these delicious treats to you!
         </p>
 

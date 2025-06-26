@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -8,7 +8,6 @@ import { PlusCircle, Trash2, Loader2 } from "lucide-react";
 
 import { useCreateManualOrder } from "@/lib/hooks/useOrders";
 import { useGetProducts } from "@/lib/hooks/useProducts";
-import { IProduct } from "@/lib/models/Product";
 import { useModal } from "@/context/ModalProvider";
 
 // Interface for items in the manual order form
@@ -56,7 +55,7 @@ export default function NewOrderPage() {
       setOrderItems([
         ...orderItems,
         {
-          productId: firstProduct._id,
+          productId: String(firstProduct._id),
           name: firstProduct.name,
           price: firstProduct.price,
           quantity: 1,
@@ -178,7 +177,7 @@ export default function NewOrderPage() {
                   className={`${inputStyle} col-span-6`}
                 >
                   {allProducts.map((p) => (
-                    <option key={p._id} value={p._id}>
+                    <option key={String(p._id)} value={String(p._id)}>
                       {p.name}
                     </option>
                   ))}

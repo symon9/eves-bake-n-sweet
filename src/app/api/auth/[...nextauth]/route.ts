@@ -5,6 +5,24 @@ import User from "@/lib/models/User";
 import bcrypt from "bcryptjs";
 import { AuthOptions } from "next-auth";
 
+// Extend NextAuth types to include 'id' on session user
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
+  }
+  interface User {
+    id: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  }
+}
+
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({

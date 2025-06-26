@@ -50,7 +50,7 @@ const Header = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const { contextSafe } = useGSAP({ scope: mobileMenuRef });
+  useGSAP({ scope: mobileMenuRef });
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -117,7 +117,7 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <nav className="py-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-pink-600 z-50">
-            Eve's Bake n Sweet
+            Eve&apos;s Bake n Sweet
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">

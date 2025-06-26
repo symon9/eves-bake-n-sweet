@@ -122,7 +122,7 @@ export default function AdminBlogsPage() {
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
         {posts.map((post) => (
           <div
-            key={post._id}
+            key={post._id as string}
             className="flex flex-col sm:flex-row items-center p-4 border-b last:border-b-0 gap-4"
           >
             <Image
@@ -137,7 +137,9 @@ export default function AdminBlogsPage() {
                 {post.title}
               </p>
               <p className="text-sm text-gray-500">
-                By {post.author.name} on{" "}
+                By {typeof post.author === "object" && "name" in post.author
+                  ? (post.author as { name: string }).name
+                  : "Unknown Author"} on{" "}
                 {format(new Date(post.createdAt), "d MMM yyyy")}
               </p>
             </div>
@@ -150,7 +152,7 @@ export default function AdminBlogsPage() {
                 <Edit size={18} />
               </button>
               <button
-                onClick={() => handleDelete(post._id, post.title)}
+                onClick={() => handleDelete(post._id as string, post.title as string)}
                 className="p-2 text-red-600 hover:bg-red-100 rounded-full transition-colors"
                 title="Delete Post"
               >

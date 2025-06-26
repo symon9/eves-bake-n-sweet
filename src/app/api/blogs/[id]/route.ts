@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import slugify from "slugify";
+
+import { authOptions } from "../../auth/[...nextauth]/route";
 import dbConnect from "@/lib/dbConnect";
 import Blog from "@/lib/models/Blog";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
-import slugify from "slugify";
 
 // GET a single post by ID (for editing)
 export async function GET(
@@ -30,28 +31,43 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   const session = await getServerSession(authOptions);
-  if (!session)
+  if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
 
   await dbConnect();
+
   try {
+    // Step 1: Fetch the existing document
+    const postToUpdate = await Blog.findById(params.id);
+
+    if (!postToUpdate) {
+      return NextResponse.json(
+        { success: false, error: "Blog post not found." },
+        { status: 404 }
+      );
+    }
+
     const body = await request.json();
+
+    // Step 2: Manually merge the changes from the request body
+    Object.keys(body).forEach((key) => {
+      // Use a type assertion to allow dynamic key access
+      (postToUpdate as any)[key] = body[key];
+    });
+
+    // If the title was part of the update, regenerate the slug
     if (body.title) {
-      body.slug = slugify(body.title, {
+      postToUpdate.slug = slugify(body.title, {
         lower: true,
         strict: true,
         trim: true,
       });
     }
-    const updatedPost = await Blog.findByIdAndUpdate(params.id, body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!updatedPost)
-      return NextResponse.json(
-        { success: false, error: "Post not found" },
-        { status: 404 }
-      );
+
+    // Step 3: Save the fully merged and updated document
+    const updatedPost = await postToUpdate.save();
+
     return NextResponse.json({ success: true, data: updatedPost });
   } catch (error: any) {
     return NextResponse.json(

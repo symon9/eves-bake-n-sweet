@@ -27,7 +27,7 @@ export default function Error({
         </h2>
 
         <p className="mt-4 text-gray-600">
-          Our kitchen seems to have a little hiccup. We've been notified and are looking into it.
+          Our kitchen seems to have a little hiccup. We&apos;ve been notified and are looking into it.
           Please try again in a moment.
         </p>
 

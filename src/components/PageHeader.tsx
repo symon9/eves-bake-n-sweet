@@ -21,20 +21,28 @@ const PageHeader = ({ title, subtitle, className = "" }: PageHeaderProps) => {
     () => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-      tl.from(containerRef.current?.querySelector(".subtitle"), {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        delay: 0.3,
-      }).from(
-        containerRef.current?.querySelector(".decorator"),
-        {
-          scaleX: 0,
-          duration: 1,
-          transformOrigin: "left center",
-        },
-        "-=0.6"
-      );
+      const subtitleEl = containerRef.current?.querySelector(".subtitle");
+      const decoratorEl = containerRef.current?.querySelector(".decorator");
+
+      if (subtitleEl) {
+        tl.from(subtitleEl, {
+          opacity: 0,
+          y: 20,
+          duration: 0.8,
+          delay: 0.3,
+        });
+      }
+      if (decoratorEl) {
+        tl.from(
+          decoratorEl,
+          {
+            scaleX: 0,
+            duration: 1,
+            transformOrigin: "left center",
+          },
+          "-=0.6"
+        );
+      }
     },
     { scope: containerRef }
   );

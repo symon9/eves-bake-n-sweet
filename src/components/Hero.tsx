@@ -43,7 +43,6 @@ const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentSlide = slides[currentIndex];
 
-  const contentRef = useRef<HTMLDivElement>(null);
 
   const { contextSafe } = useGSAP({ scope: containerRef });
 

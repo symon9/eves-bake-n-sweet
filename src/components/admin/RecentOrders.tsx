@@ -12,7 +12,7 @@ const RecentOrders = ({ orders }: { orders: IOrder[] }) => {
       </h3>
       <div className="space-y-4">
         {orders.map((order) => (
-          <Link key={order._id} href={`/admin/orders/${order._id}`}>
+          <Link key={String(order._id)} href={`/admin/orders/${order._id}`}>
             <div className="flex justify-between items-center hover:bg-gray-50 p-2 rounded-md transition-colors">
               <div>
                 <p className="font-medium text-gray-900 truncate">

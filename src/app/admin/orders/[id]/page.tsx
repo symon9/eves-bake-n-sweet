@@ -125,7 +125,7 @@ export default function OrderDetailPage() {
         {/* Responsive Local Page Header */}
         <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 gap-3">
           <h1 className="text-2xl font-bold text-gray-800">
-            Order #{order._id.slice(-6).toUpperCase()}
+            Order #{(order._id as string).slice(-6).toUpperCase()}
           </h1>
           <Link
             href="/admin/orders"
@@ -148,7 +148,9 @@ export default function OrderDetailPage() {
                   >
                     <div className="flex items-center space-x-4">
                       {item.productId &&
-                      item.productId.imageUrls &&
+                      typeof item.productId === "object" &&
+                      "imageUrls" in item.productId &&
+                      Array.isArray(item.productId.imageUrls) &&
                       item.productId.imageUrls.length > 0 ? (
                         <Image
                           src={item.productId.imageUrls[0]}

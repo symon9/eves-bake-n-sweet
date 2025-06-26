@@ -58,7 +58,7 @@ const ReviewCard = ({ review }: { review: (typeof reviewsData)[0] }) => (
         <Star key={i} className="h-5 w-5 text-yellow-400" fill="currentColor" />
       ))}
     </div>
-    <p className="text-gray-600 italic">"{review.text}"</p>
+    <p className="text-gray-600 italic">&quot;{review.text}&quot;</p>
     <p className="font-semibold text-pink-600">- {review.name}</p>
   </div>
 );
@@ -116,7 +116,7 @@ const Reviews = () => {
               Words from Our Customers
             </h2>
             <p className="max-w-2xl mx-auto text-gray-600 mt-4">
-              We love our community, and we're so grateful for the sweet things
+              We love our community, and we&apos;re so grateful for the sweet things
               they have to say.
             </p>
           </div>
