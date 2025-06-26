@@ -2,15 +2,19 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import Product from "@/lib/models/Product";
 
-interface Params {
-  params: { id: string };
+// Helper to extract id from the URL
+function getIdFromRequest(request: Request) {
+  const url = new URL(request.url);
+  const id = url.pathname.split("/").pop();
+  return id;
 }
 
-// Create a product
-export async function GET(request: Request, { params }: Params) {
+// GET a single product by ID
+export async function GET(request: Request) {
   await dbConnect();
+  const id = getIdFromRequest(request);
   try {
-    const product = await Product.findById(params.id);
+    const product = await Product.findById(id);
     if (!product) {
       return NextResponse.json(
         { success: false, error: "Product not found" },
@@ -24,11 +28,12 @@ export async function GET(request: Request, { params }: Params) {
 }
 
 // Update a product
-export async function PUT(request: Request, { params }: Params) {
+export async function PUT(request: Request) {
   await dbConnect();
+  const id = getIdFromRequest(request);
   try {
     const body = await request.json();
-    const product = await Product.findByIdAndUpdate(params.id, body, {
+    const product = await Product.findByIdAndUpdate(id, body, {
       new: true,
       runValidators: true,
     });
@@ -42,10 +47,11 @@ export async function PUT(request: Request, { params }: Params) {
 }
 
 // Delete a product
-export async function DELETE(request: Request, { params }: Params) {
+export async function DELETE(request: Request) {
   await dbConnect();
+  const id = getIdFromRequest(request);
   try {
-    const deletedProduct = await Product.deleteOne({ _id: params.id });
+    const deletedProduct = await Product.deleteOne({ _id: id });
     if (!deletedProduct.deletedCount) {
       return NextResponse.json({ success: false }, { status: 404 });
     }

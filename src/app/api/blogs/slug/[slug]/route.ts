@@ -2,12 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Blog from '@/lib/models/Blog';
 
+// Helper to extract slug from the URL
+function getSlugFromRequest(request: NextRequest) {
+  const slug = request.nextUrl.pathname.split("/").pop();
+  return slug;
+}
+
 // GET a single post by its slug AND recommended posts
-export async function GET(request: NextRequest, { params }: { params: { slug: string } }) {
+export async function GET(request: NextRequest) {
   await dbConnect();
+  const slug = getSlugFromRequest(request);
   try {
     // 1. Find the main post
-    const post = await Blog.findOne({ slug: params.slug }).populate('author', 'name email');
+    const post = await Blog.findOne({ slug }).populate('author', 'name email');
     
     if (!post) {
       return NextResponse.json({ success: false, error: 'Post not found' }, { status: 404 });

@@ -4,20 +4,24 @@ import Order from "@/lib/models/Order";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/authOptions";
 
-interface Params {
-  params: { id: string };
+// Helper to extract id from the URL
+function getIdFromRequest(request: Request) {
+  const url = new URL(request.url);
+  const id = url.pathname.split("/").pop();
+  return id;
 }
 
 // GET a single order by ID
-export async function GET(request: Request, { params }: Params) {
+export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   await dbConnect();
+  const id = getIdFromRequest(request);
   try {
-    const order = await Order.findById(params.id).populate(
+    const order = await Order.findById(id).populate(
       "items.productId",
       "imageUrls"
     );
@@ -37,14 +41,7 @@ export async function GET(request: Request, { params }: Params) {
         { status: 400 }
       );
     }
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: error.message || "An unknown server error occurred",
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error }, { status: 400 });
   }
 }
 
