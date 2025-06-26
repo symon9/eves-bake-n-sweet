@@ -5,10 +5,6 @@ import parse from "html-react-parser";
 import { format } from "date-fns";
 import ShareButtons from "@/components/ShareButtons";
 
-interface PostPageProps {
-  params: { slug: string };
-}
-
 async function getPostData(slug: string) {
   const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
   const res = await fetch(`${baseUrl}/api/blogs/slug/${slug}`, {
@@ -19,7 +15,7 @@ async function getPostData(slug: string) {
 }
 
 export async function generateMetadata(
-  { params }: PostPageProps
+  { params }: { params: { slug: string } }
 ): Promise<Metadata> {
   const postData = await getPostData(params.slug);
 
@@ -62,7 +58,9 @@ export async function generateMetadata(
   };
 }
 
-export default async function PostDetailPage({ params }: PostPageProps) {
+export default async function PostDetailPage(
+  { params }: { params: { slug: string } }
+) {
   const postData = await getPostData(params.slug);
 
   if (!postData || !postData.success) {
