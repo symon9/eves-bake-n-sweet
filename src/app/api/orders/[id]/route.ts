@@ -46,16 +46,16 @@ export async function GET(request: Request) {
 }
 
 // --- PUT HANDLER for updating status ---
-export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: Request) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   await dbConnect();
+  // Extract id from request URL
+  const url = new URL(request.url);
+  const id = url.pathname.split("/").pop();
 
   try {
     const { status } = await request.json();
@@ -71,7 +71,7 @@ export async function PUT(
     }
 
     const updatedOrder = await Order.findByIdAndUpdate(
-      params.id,
+      id,
       { status: status },
       { new: true }
     );
