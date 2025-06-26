@@ -3,7 +3,7 @@ import dbConnect from "@/lib/dbConnect";
 import Order from "@/lib/models/Order";
 import Product from "@/lib/models/Product";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "../auth/[...nextauth]/authOptions";
 
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);

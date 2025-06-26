@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import slugify from "slugify";
 
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { authOptions } from "../../auth/[...nextauth]/authOptions";
 import dbConnect from "@/lib/dbConnect";
 import Blog from "@/lib/models/Blog";
 
