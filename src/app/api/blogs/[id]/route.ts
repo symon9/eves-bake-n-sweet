@@ -6,14 +6,18 @@ import { authOptions } from "../../auth/[...nextauth]/authOptions";
 import dbConnect from "@/lib/dbConnect";
 import Blog from "@/lib/models/Blog";
 
+// Helper to extract id from the URL
+function getIdFromRequest(request: NextRequest) {
+  const id = request.nextUrl.pathname.split("/").pop();
+  return id;
+}
+
 // GET a single post by ID (for editing)
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest) {
   await dbConnect();
+  const id = getIdFromRequest(request);
   try {
-    const post = await Blog.findById(params.id);
+    const post = await Blog.findById(id);
     if (!post)
       return NextResponse.json(
         { success: false, error: "Post not found" },
@@ -26,20 +30,17 @@ export async function GET(
 }
 
 // PUT (update) a post by ID
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   await dbConnect();
-
+  const id = getIdFromRequest(request);
   try {
     // Step 1: Fetch the existing document
-    const postToUpdate = await Blog.findById(params.id);
+    const postToUpdate = await Blog.findById(id);
 
     if (!postToUpdate) {
       return NextResponse.json(
@@ -78,17 +79,15 @@ export async function PUT(
 }
 
 // DELETE a post by ID
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
   await dbConnect();
+  const id = getIdFromRequest(request);
   try {
-    const deletedPost = await Blog.deleteOne({ _id: params.id });
+    const deletedPost = await Blog.deleteOne({ _id: id });
     if (deletedPost.deletedCount === 0)
       return NextResponse.json(
         { success: false, error: "Post not found" },
