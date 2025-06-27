@@ -5,20 +5,28 @@ import parse from "html-react-parser";
 import { format } from "date-fns";
 import ShareButtons from "@/components/ShareButtons";
 
+// ✅ Define the correct type
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+// ✅ This function runs at build/render time
 async function getPostData(slug: string) {
-  const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
   const res = await fetch(`${baseUrl}/api/blogs/slug/${slug}`, {
-    next: { revalidate: 3600 }, // Revalidate data once per hour
+    next: { revalidate: 3600 },
   });
+
   if (!res.ok) return null;
   return res.json();
 }
 
-export async function generateMetadata(
-  { params }: { params: { slug: string } }
-): Promise<Metadata> {
+// ✅ generateMetadata function with correct props type
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const postData = await getPostData(params.slug);
-
   if (!postData || !postData.success) {
     return {
       title: "Post Not Found",
@@ -58,9 +66,8 @@ export async function generateMetadata(
   };
 }
 
-export default async function PostDetailPage(
-  { params }: { params: { slug: string } }
-) {
+// ✅ Page Component with correct props type
+export default async function PostDetailPage({ params }: PageProps) {
   const postData = await getPostData(params.slug);
 
   if (!postData || !postData.success) {
@@ -69,7 +76,6 @@ export default async function PostDetailPage(
 
   const { mainPost, recommendedPosts } = postData.data;
 
-  // 2. JSON-LD STRUCTURED DATA (for Google Rich Results)
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -84,9 +90,7 @@ export default async function PostDetailPage(
       name: "Eve's Bake n Sweet",
       logo: {
         "@type": "ImageObject",
-        url: `${
-          process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-        }/logo.png`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/logo.png`,
       },
     },
     datePublished: mainPost.createdAt,
@@ -100,12 +104,10 @@ export default async function PostDetailPage(
 
   return (
     <>
-      {/* This script tag injects the structured data into the page's head */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-
       <article className="py-12 bg-gray-50">
         <header className="text-center max-w-4xl mx-auto px-4">
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
@@ -149,7 +151,7 @@ export default async function PostDetailPage(
             <ShareButtons title={mainPost.title} />
           </div>
 
-          {recommendedPosts && recommendedPosts.length > 0 && (
+          {recommendedPosts?.length > 0 && (
             <div className="py-12">
               <h3 className="text-2xl font-bold text-center mb-8">
                 You Might Also Like...
