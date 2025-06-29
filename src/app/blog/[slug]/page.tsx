@@ -3,29 +3,33 @@ import Image from "next/image";
 import Link from "next/link";
 import parse from "html-react-parser";
 import { format } from "date-fns";
+
 import ShareButtons from "@/components/ShareButtons";
+import dbConnect from "@/lib/dbConnect";
+import Blog from "@/lib/models/Blog";
 
-// ✅ Define the correct type
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-// ✅ This function runs at build/render time
 async function getPostData(slug: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  await dbConnect();
+  const mainPost = await Blog.findOne({ slug }).populate("author", "name");
 
-  const res = await fetch(`${baseUrl}/api/blogs/slug/${slug}`, {
-    next: { revalidate: 3600 },
-  });
+  // fetch 3 other posts as recommendations
+  let recommendedPosts: any[] = [];
+  if (mainPost) {
+    recommendedPosts = await Blog.find({
+      _id: { $ne: mainPost._id },
+    })
+      .sort({ createdAt: -1 })
+      .limit(3)
+      .lean();
+  }
 
-  if (!res.ok) return null;
-  return res.json();
+  return { success: !!mainPost, data: { mainPost, recommendedPosts } };
 }
 
 // ✅ generateMetadata function with correct props type
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: { slug: string } }
+): Promise<Metadata> {
   const postData = await getPostData(params.slug);
   if (!postData || !postData.success) {
     return {
@@ -67,7 +71,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 // ✅ Page Component with correct props type
-export default async function PostDetailPage({ params }: PageProps) {
+export default async function PostDetailPage(
+  { params }: { params: { slug: string } }
+) {
   const postData = await getPostData(params.slug);
 
   if (!postData || !postData.success) {

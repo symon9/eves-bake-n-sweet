@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePaystackPayment } from "react-paystack";
 import { Trash2, Plus, Minus, ShoppingCart, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
@@ -91,7 +90,15 @@ export default function CartPage() {
     publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY!,
   };
 
-  const initializePayment = usePaystackPayment(paystackConfig);
+  const paystackRef = useRef<any>(null);
+  if (typeof window !== "undefined" && !paystackRef.current) {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    paystackRef.current = require("react-paystack").usePaystackPayment;
+  }
+
+  const initializePayment = paystackRef.current
+    ? paystackRef.current(paystackConfig)
+    : () => {};
 
   const handleCheckout = () => {
     setIsSubmitting(true);

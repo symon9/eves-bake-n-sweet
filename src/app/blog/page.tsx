@@ -4,6 +4,8 @@ import { format } from "date-fns";
 import { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import { IBlog } from "@/lib/models/Blog";
+import dbConnect from "@/lib/dbConnect";
+import Blog from "@/lib/models/Blog";
 
 // --- SEO METADATA ---
 export const metadata: Metadata = {
@@ -37,12 +39,9 @@ export const metadata: Metadata = {
 };
 
 async function getPosts() {
-  const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
-  const res = await fetch(`${baseUrl}/api/blogs`, {
-    next: { revalidate: 3600 }, // Revalidate once an hour
-  });
-  if (!res.ok) throw new Error("Failed to fetch posts");
-  return res.json();
+  await dbConnect();
+  const posts = await Blog.find({}).sort({ createdAt: -1 });
+  return JSON.parse(JSON.stringify(posts));
 }
 
 const BlogCard = ({ post }: { post: IBlog }) => (
@@ -86,7 +85,7 @@ const BlogCard = ({ post }: { post: IBlog }) => (
 );
 
 export default async function BlogPage() {
-  const { data: posts }: { data: IBlog[] } = await getPosts();
+  const posts: IBlog[] = await getPosts();
 
   // --- JSON-LD STRUCTURED DATA FOR BLOG POSTING LIST ---
   const jsonLd = {

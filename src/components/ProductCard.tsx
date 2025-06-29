@@ -68,42 +68,45 @@ const ProductCard = ({ product }: ProductCardProps) => {
       },
     });
 
-    const cardImage = cardRef.current?.querySelector(
-      ".product-slideshow-container img"
-    );
-    const cartIcon = document.getElementById("cart-icon");
+    // Only run in the browser
+    if (typeof window !== "undefined" && cardRef.current) {
+      const cardImage = cardRef.current.querySelector(
+        ".product-slideshow-container img"
+      );
+      const cartIcon = document.getElementById("cart-icon");
 
-    if (cardImage && cartIcon) {
-      const imageRect = cardImage.getBoundingClientRect();
-      const cartRect = cartIcon.getBoundingClientRect();
+      if (cardImage && cartIcon) {
+        const imageRect = cardImage.getBoundingClientRect();
+        const cartRect = cartIcon.getBoundingClientRect();
 
-      const flyingImage = cardImage.cloneNode(true) as HTMLImageElement;
-      flyingImage.style.position = "fixed";
-      flyingImage.style.left = `${imageRect.left}px`;
-      flyingImage.style.top = `${imageRect.top}px`;
-      flyingImage.style.width = `${imageRect.width}px`;
-      flyingImage.style.height = `${imageRect.height}px`;
-      flyingImage.style.zIndex = "1000";
-      flyingImage.style.borderRadius = "0.5rem";
-      document.body.appendChild(flyingImage);
+        const flyingImage = cardImage.cloneNode(true) as HTMLImageElement;
+        flyingImage.style.position = "fixed";
+        flyingImage.style.left = `${imageRect.left}px`;
+        flyingImage.style.top = `${imageRect.top}px`;
+        flyingImage.style.width = `${imageRect.width}px`;
+        flyingImage.style.height = `${imageRect.height}px`;
+        flyingImage.style.zIndex = "1000";
+        flyingImage.style.borderRadius = "0.5rem";
+        document.body.appendChild(flyingImage);
 
-      gsap.to(flyingImage, {
-        left: cartRect.left + cartRect.width / 2,
-        top: cartRect.top + cartRect.height / 2,
-        width: 0,
-        height: 0,
-        opacity: 0.5,
-        duration: 0.8,
-        ease: "power2.in",
-        onComplete: () => {
-          document.body.removeChild(flyingImage);
-          gsap.fromTo(
-            "#cart-icon",
-            { scale: 1.5 },
-            { scale: 1, duration: 0.3, ease: "back.out(1.7)" }
-          );
-        },
-      });
+        gsap.to(flyingImage, {
+          left: cartRect.left + cartRect.width / 2,
+          top: cartRect.top + cartRect.height / 2,
+          width: 0,
+          height: 0,
+          opacity: 0.5,
+          duration: 0.8,
+          ease: "power2.in",
+          onComplete: () => {
+            document.body.removeChild(flyingImage);
+            gsap.fromTo(
+              "#cart-icon",
+              { scale: 1.5 },
+              { scale: 1, duration: 0.3, ease: "back.out(1.7)" }
+            );
+          },
+        });
+      }
     }
   };
 
