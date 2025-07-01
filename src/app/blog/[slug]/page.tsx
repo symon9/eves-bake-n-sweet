@@ -8,6 +8,9 @@ import ShareButtons from "@/components/ShareButtons";
 import dbConnect from "@/lib/dbConnect";
 import Blog from "@/lib/models/Blog";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 600;
+
 async function getPostData(slug: string) {
   await dbConnect();
   const mainPost = await Blog.findOne({ slug }).populate("author", "name");

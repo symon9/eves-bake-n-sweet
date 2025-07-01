@@ -4,6 +4,9 @@ import ProductCard from "@/components/ProductCard";
 import { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 600;
+
 // --- ENHANCED SEO METADATA ---
 export const metadata: Metadata = {
   title: "Our Full Menu | Eve's Bake n Sweet",

@@ -7,6 +7,9 @@ import Reviews from "@/components/Reviews";
 import Faq from "@/components/about/Faq";
 import ContactSection from "@/components/ContactSection";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 600;
+
 // --- ENHANCED SEO METADATA ---
 export const metadata: Metadata = {
   title: "Eve's Bake n Sweet | Handcrafted Cakes, Cookies & Pastries",

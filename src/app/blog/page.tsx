@@ -7,6 +7,9 @@ import { IBlog } from "@/lib/models/Blog";
 import dbConnect from "@/lib/dbConnect";
 import Blog from "@/lib/models/Blog";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 600;
+
 // --- SEO METADATA ---
 export const metadata: Metadata = {
   title: "The Blog | Eve's Bake n Sweet",
