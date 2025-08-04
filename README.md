@@ -6,7 +6,8 @@ A full-stack e-commerce and content management application for a modern bakery. 
 
 ## ✨ Live Demo
 
-**[Link to your deployed website]** - (e.g., `https://evesbake.vercel.app`)
+**[Visit Demo site]**([https://www.openai.com](https://evesbake.vercel.app))
+
 
 ---
 
