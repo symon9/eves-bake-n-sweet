@@ -115,9 +115,9 @@ export const generateReceiptPDF = (order: OrderData) => {
   const pageHeight = doc.internal.pageSize.height;
   doc.setFontSize(10);
   doc.setTextColor('#888');
-  const footerText = "Thank you for your purchase! If you have any questions, please contact us at orders@evesbake.com.";
+  const footerText = "Thank you for your purchase! If you have any questions, please contact us at orders@evesbake.com.ng.";
   doc.text(footerText, 14, pageHeight - 20, { maxWidth: doc.internal.pageSize.width - 28 });
-  doc.text(`www.evesbake.com | Payment Ref: ${order.paymentReference || 'N/A'}`, 14, pageHeight - 10);
+  doc.text(`www.evesbake.com.ng | Payment Ref: ${order.paymentReference || 'N/A'}`, 14, pageHeight - 10);
   
   doc.save(`receipt-evesbake-${order._id.slice(-8)}.pdf`);
 };
