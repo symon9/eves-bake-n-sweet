@@ -120,4 +120,4 @@ export const generateReceiptPDF = (order: OrderData) => {
   doc.text(`www.evesbake.com | Payment Ref: ${order.paymentReference || 'N/A'}`, 14, pageHeight - 10);
   
   doc.save(`receipt-evesbake-${order._id.slice(-8)}.pdf`);
-};
+}; 
