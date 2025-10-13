@@ -67,6 +67,8 @@ export default function CartPage() {
       if (!orderData.success) {
         throw new Error(orderData.error || "Failed to save order.");
       }
+      // Dispatch the saved order data to the context
+      dispatch({ type: 'SET_LAST_ORDER', payload: orderData.data });
     } catch (error: unknown) {
       console.error("CRITICAL: Failed to save a paid order.", error);
       toast.error(
