@@ -21,6 +21,8 @@
     "framer-motion": "^12.18.1",
     "gsap": "^3.13.0",
     "html-react-parser": "^5.2.5",
+    "jspdf": "^3.0.3",
+    "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.515.0",
     "mongoose": "^8.15.2",
     "next": "15.3.3",
